@@ -1,0 +1,60 @@
+{
+  "name": "eatodo",
+  "description": "Simple TODO application built with Electron and AngularJS.",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "electron ./app --enable-logging --remote-debugging-port=9222",
+    "dev": "NODE_ENV='development' npm run start",
+    "dist": "build -mwl --x64 --ia32",
+    "prerelease:osx": "rimraf release/osx && mkdirp release/osx",
+    "release:osx": "copyfiles -f dist/mac/*.{dmg,zip} release/osx && PACKAGE_VERSION=$(cat app/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && echo $PACKAGE_VERSION >> ./release/osx/VERSION",
+    "prerelease:win32": "rimraf release/win32 && mkdirp release/win32",
+    "release:win32": "copyfiles -f dist/win-ia32/{RELEASES,*.nupkg,*.exe} release/win32",
+    "prerelease:win64": "rimraf release/win64 && mkdirp release/win64",
+    "release:win64": "copyfiles -f dist/win/{RELEASES,*.nupkg,*.exe} release/win64",
+    "release": "run-p release:*",
+    "deploy": "PACKAGE_VERSION=$(cat app/package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && aws s3 sync release/ s3://eatodo/updates/$PACKAGE_VERSION/ --acl public-read && aws s3 sync s3://eatodo/updates/$PACKAGE_VERSION/ s3://eatodo/updates/latest/ --delete --acl public-read",
+    "all": "run-s dist release deploy",
+    "reload": "live-reload app --port 35729"
+  },
+  "author": "Vjekoslav Ratkajec",
+  "devDependencies": {
+    "copyfiles": "~1.0.0",
+    "electron-builder": "5.12.X",
+    "electron-prebuilt": "~1.2.X",
+    "live-reload": "~1.1.0",
+    "mkdirp": "~0.5.1",
+    "npm-run-all": "~2.3.0",
+    "rimraf": "~2.5.3"
+  },
+  "build": {
+    "appId": "hr.creaticon.eatodo",
+    "app-category-type": "public.app-category.productivity",
+    "dmg": {
+      "title": "EA Todo",
+      "background": "build/background.png",
+      "icon": "build/icon.icns",
+      "icon-size": 128,
+      "contents": [
+        {
+          "x": 355,
+          "y": 125,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 155,
+          "y": 125,
+          "type": "file"
+        }
+      ]
+    },
+    "win": {
+      "iconUrl": "http://eatodo.s3.amazonaws.com/icon.ico"
+    }
+  },
+  "dependencies": {
+    "electron-storage": "^1.0.6",
+    "file-upload-thumbnail": "0.0.3"
+  }
+}

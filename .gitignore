@@ -1,0 +1,12 @@
+#directories
+bower_components
+node_modules
+dist
+.vscode
+release
+videos
+
+#files
+*.tgz
+*.log
+*.mp4

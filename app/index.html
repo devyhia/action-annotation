@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Video Labeling Tool - The American University in Cairo</title>
+
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+	<link rel="stylesheet" type="text/css" href="./node_modules/angular-material/angular-material.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="http://vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
+	<style media="screen">
+		.pointer:hover {
+			cursor: pointer;
+		}
+	</style>
+
+	<!--Include live reloading-->
+	<!-- <script src="http://localhost:35729/livereload.js"></script> -->
+</head>
+<body ng-controller="AppController as app">
+	<!-- Welcome Page -->
+	<link ng-if="app.filename == undefined" rel="stylesheet" type="text/css" href="styles/welcome.css">
+	<div ng-if="app.filename == undefined" class="site-wrapper">
+
+		<div class="site-wrapper-inner">
+
+			<div class="cover-container">
+				<div class="inner cover">
+					<h1 class="cover-heading">Welcome to AUC Video Labeling!</h1>
+					<p class="lead">Create a new project to label your action-based videos.</p>
+					<p class="lead">
+						<a href="#" ng-click="app.newProject()" class="btn btn-lg btn-secondary">New Project</a>
+					</p>
+					<a href="#" ng-click="app.existingProject()" style="color: #FFF; font-size: 14px;" class="btn btn-lg btn-link">(or Existing Project)</a>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Actual Dashboard -->
+	<div ng-if="app.filename != undefined" class="container" style="width: 100%; height: 100%; padding-top:4.5em;">
+		<div style="background: #eee; width: 100%; margin-top: -4.5em; padding-bottom: .5em; position: fixed; z-index: 99999;" class="row">
+			<div class="col-xs-12">
+				<div style="margin-top: 1em;" class="pull-right">
+					<!-- <a href="#" ng-click="newLabel()" class="btn btn-md btn-primary">New Label</a> -->
+					<a href="#" ng-click="app.generateDataset()" class="btn btn-md btn-success">Generate Dataset</a>
+					<a href="#" ng-click="app.newVideos()" class="btn btn-md btn-success">Add Videos</a>
+					<a href="#" ng-click="app.saveProject()" class="btn btn-md">Save</a>
+				</div>
+				<h3>Video Labeler</h3>
+			</div>
+		</div>
+		<div style="height: 100%" class="row">
+			<div style="height: 100%; background-color: #fbfbfb; padding-bottom: 1em; overflow-y: scroll;" class="col-xs-3">
+				<h4>Videos</h4>
+				<ul ng-if="app.videos.length > 0" class="list-group">
+				  <a ng-click="app.selectVideo($index)" ng-class="{'active': app.currentVideo == video, 'list-group-item-success': video.complete}" ng-repeat="video in app.videos track by $index" class="list-group-item pointer">
+							{{ video.name }}
+					</a>
+				</ul>
+				<span ng-if="app.videos.length == 0">
+					No videos found!
+				</span>
+				<h4>Labels</h4>
+				<span ng-if="app.labels.length == 0">
+					No labels found!
+				</span>
+				<ul ng-if="app.labels.length > 0" class="list-group">
+				  <li ng-repeat="label in app.labels track by $index" class="list-group-item">
+						<a href="#" ng-click="app.removeLabel($index)" style="margin-top: -.1em; margin-right: -.2em;" class="close pull-right"><span aria-hidden="true">&times;</span></a>
+						{{ label }}
+					</li>
+				</ul>
+				<input id="labelText" type="text" placeholder="Type New Label + Enter" ng-enter="app.newLabel()" ng-model="app.labelText" class="form-control" style="margin-top: .5em;"/>
+
+			</div>
+			<div class="col-xs-6">
+				<div ng-if="app.currentVideo != undefined">
+					<div style="margin-top:-.5em" class="pull-right">
+						<a href="#" ng-click="app.toggleComplete()" class="btn btn-md btn-default">Mark <span ng-bind="app.currentVideo.complete ? 'Incomplete' : 'Complete'"></span></a>
+					</div>
+					<h3>Video: {{app.currentVideo.name}}</h3>
+					<video class="video-js vjs-default-skin" controls preload="auto" width="600" height="350" vjs-video vjs-media="mediaToggle">
+					</video>
+				</div>
+			</div>
+			<div class="col-xs-3" style="height: 100%; background-color: #fbfbfb; padding-bottom: 1em; overflow-y: scroll;">
+				<h4>Labeling</h4>
+				<h3 id="currentTime" ng-if="app.currentTime != undefined" style="text-align: left;">{{app.currentTime}}</h3>
+				<!-- <input type="text" placeholder="Classify + Enter" ng-enter="app.chooseLabel()" ng-model="app.classifyText" class="form-control" style="margin-top: .5em;"/> -->
+		    <input id="classifyText" style="margin-bottom: 1em;" typeahead-on-select="app.labelVideo()" type="text" ng-model="app.classifyText" uib-typeahead="label for label in app.labels | filter:$viewValue | limitTo:8" class="form-control">
+				<ul ng-if="app.labels.length > 0" class="list-group">
+				  <li ng-repeat="classify in app.data[app.currentVideo.name] track by $index" class="list-group-item">
+						<a href="#" ng-click="app.removeVideoLabel($index)" style="margin-top: -.1em; margin-right: -.2em;" class="close pull-right"><span aria-hidden="true">&times;</span></a>
+						<b>{{ classify.time }}</b> <br>
+						<span style='font-size: 18px; font-weight: 300;'>{{ classify.label }}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript">
+		require('jQuery');
+		require('bootstrap');
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+
+	<script src="./node_modules/angular/angular.js"></script>
+	<script src="./uib/dist/ui-bootstrap.js"></script>
+	<script src="./node_modules/angular-aria/angular-aria.js"></script>
+	<script src="./node_modules/angular-animate/angular-animate.js"></script>
+	<script src="./node_modules/angular-material/angular-material.js"></script>
+
+	<script src="../bower_components/video.js/dist/video.js"></script>
+  <script src="../bower_components/vjs-video/dist/vjs-video.js"></script>
+
+	<script src="./scripts/mousetrap.min.js"></script>
+	<script src="./scripts/mousetrap-global-bind.min.js"></script>
+
+	<script src="scripts/index.js"></script>
+	<script src="scripts/app/appController.js"></script>
+	<script src="scripts/app/config.js"></script>
+	<script src="scripts/components/todoList/todoListDirective.js"></script>
+
+	<!-- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+	<!-- <div  layout="column">
+
+	</div> -->
+
+</body>
+</html>
