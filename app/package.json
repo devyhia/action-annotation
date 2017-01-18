@@ -1,17 +1,22 @@
 {
   "name": "eatodo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple TODO application built with Electron and AngularJS.",
   "author": "Vjekoslav Ratkajec <vjeko@creaticon.hr>",
   "main": "main.js",
   "license": "MIT",
   "dependencies": {
-    "angular": "^1.5.5",
-    "angular-animate": "^1.5.5",
-    "angular-aria": "^1.5.5",
-    "angular-material": "^1.0.8",
+    "angular": "^1.6.1",
+    "angular-animate": "^1.6.1",
+    "angular-aria": "^1.6.1",
+    "angular-bootstrap": "^0.12.2",
+    "angular-material": "^1.1.1",
+    "bootstrap": "^3.3.7",
     "electron-squirrel-startup": "^1.0.0",
-    "winston": "^2.2.0",
-    "underscore": "^1.5.2"
+    "jquery": "^3.1.1",
+    "underscore": "^1.5.2",
+    "video.js": "^5.15.1",
+    "vjs-video": "^0.1.8",
+    "winston": "^2.2.0"
   }
 }

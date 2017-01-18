@@ -1,6 +1,6 @@
 var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
-var $ = require('jQuery');
+var jQuery = require('jQuery');
 var fs = require('fs');
 var underscore = require('underscore');
 
@@ -122,18 +122,17 @@ var underscore = require('underscore');
 		}
 
 		app.loadProject = function() {
-			fs.readFile(app.filename, function read(err, data) {
-					if (err) {
-							app.filename = undefined;
-			        throw err;
-			    }
+			try {
+				data = fs.readFileSync(app.filename);
+				data = JSON.parse(data);
 
-					data = JSON.parse(data);
-
-					app.labels = data['labels'];
-					app.data = data['data'];
-					app.videos = data['videos'];
-			});
+				app.labels = data['labels'];
+				app.data = data['data'];
+				app.videos = data['videos'];
+			} catch (e) {
+				app.filename = undefined;
+				throw e;
+			}
 		}
 
 		app.saveProject = function() {
@@ -166,6 +165,12 @@ var underscore = require('underscore');
 			app.currentVideo.complete = !app.currentVideo.complete;
 		}
 
+		app.deleteVideo = function() {
+			var vidIdx = app.videos.indexOf(app.currentVideo);
+			app.videos.splice(vidIdx, 1);
+			app.currentVideo = undefined;
+		}
+
 		app.newVideos = function() {
 			var videos = dialog.showOpenDialog({
 				properties: ['openFile', 'multiSelections']
@@ -193,13 +198,18 @@ var underscore = require('underscore');
 			// console.log(jQuery);
 			// console.log(source);
 			// console.log(jQuery("#videoPlayer"));
+			console.log("Setting Video ...");
 			app.currentTime = 0;
 			$scope.player = undefined;
 
-			if ($scope.mediaToggle['sources'].length > 0) {
-				$scope.mediaToggle['sources'].splice(0,1);
-			}
-			$scope.mediaToggle['sources'].push({ type: "video/mp4", src: "file://"+app.currentVideo.path });
+			var mediaObj = { sources: [{ type: "video/mp4", src: "file://"+app.currentVideo.path }] };
+
+			// if ($scope.mediaToggle['sources'].length > 0) {
+			// 	$scope.mediaToggle['sources'].splice(0,1);
+			// }
+			// $scope.mediaToggle['sources'].push();
+
+			$scope.mediaToggle = mediaObj;
 
 			if (!(app.currentVideo.name in app.data)) {
 				app.data[app.currentVideo.name] = [];

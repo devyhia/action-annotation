@@ -78,11 +78,14 @@
 			<div class="col-xs-6">
 				<div ng-if="app.currentVideo != undefined">
 					<div style="margin-top:-.5em" class="pull-right">
+						<a href="#" ng-click="app.deleteVideo()" class="btn btn-md btn-default btn-danger">Delete</span></a>
 						<a href="#" ng-click="app.toggleComplete()" class="btn btn-md btn-default">Mark <span ng-bind="app.currentVideo.complete ? 'Incomplete' : 'Complete'"></span></a>
 					</div>
 					<h3>Video: {{app.currentVideo.name}}</h3>
-					<video class="video-js vjs-default-skin" controls preload="auto" width="600" height="350" vjs-video vjs-media="mediaToggle">
-					</video>
+					<vjs-video-container vjs-ratio="640:380" vjs-media="mediaToggle">
+						<video class="video-js vjs-default-skin" controls preload="auto" width="100%">
+						</video>
+					</vjs-video-container>
 				</div>
 			</div>
 			<div class="col-xs-3" style="height: 100%; background-color: #fbfbfb; padding-bottom: 1em; overflow-y: scroll;">
@@ -104,20 +107,21 @@
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script src="./node_modules/jquery/dist/jquery.js"></script>
 	<script type="text/javascript">
 		require('jQuery');
-		require('bootstrap');
+		// require('bootstrap');
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 
 	<script src="./node_modules/angular/angular.js"></script>
-	<script src="./uib/dist/ui-bootstrap.js"></script>
+	<script src="./node_modules/angular-bootstrap/ui-bootstrap.js"></script>
 	<script src="./node_modules/angular-aria/angular-aria.js"></script>
 	<script src="./node_modules/angular-animate/angular-animate.js"></script>
 	<script src="./node_modules/angular-material/angular-material.js"></script>
-
-	<script src="../bower_components/video.js/dist/video.js"></script>
-  <script src="../bower_components/vjs-video/dist/vjs-video.js"></script>
+	<script src="./node_modules/video.js/dist/video.js"></script>
+  <script src="./node_modules/vjs-video/dist/vjs-video.js"></script>
 
 	<script src="./scripts/mousetrap.min.js"></script>
 	<script src="./scripts/mousetrap-global-bind.min.js"></script>
