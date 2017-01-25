@@ -6,7 +6,7 @@ var underscore = require('underscore');
 
 (function(){
 	angular
-		.module('app', ['ngMaterial', 'ngAnimate', 'vjs.video', 'ui.bootstrap.typeahead'])
+		.module('app', ['ngMaterial', 'ngAnimate', 'vjs.video', 'ui.bootstrap', 'ui.bootstrap.typeahead'])
 		.controller('AppController', ['$scope', '$interval', 'logger', 'dialog', 'path', AppController]);
 
 
@@ -222,6 +222,12 @@ var underscore = require('underscore');
 		}
 
 		app.labelVideo = function() {
+			if(app.currentVideo == undefined) return;
+			// Check if placeholder is not an array!
+			if(!Array.isArray(app.data[app.currentVideo.name])) {
+				app.data[app.currentVideo.name] = []
+			}
+
 			app.data[app.currentVideo.name].push({
 				'time': app.currentTime,
 				'label': app.classifyText

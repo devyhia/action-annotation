@@ -3,7 +3,7 @@
   "description": "Simple TODO application built with Electron and AngularJS.",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "electron ./app --enable-logging --remote-debugging-port=9222",
+    "start": "EVENT_NOKQUEUE=1 electron ./app --enable-logging --remote-debugging-port=9222",
     "dev": "NODE_ENV='development' npm run start",
     "dist": "build -mwl --x64 --ia32",
     "prerelease:osx": "rimraf release/osx && mkdirp release/osx",

@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="./node_modules/angular-material/angular-material.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="http://vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css">
 	<style media="screen">
 		.pointer:hover {
 			cursor: pointer;
@@ -44,7 +45,7 @@
 			<div class="col-xs-12">
 				<div style="margin-top: 1em;" class="pull-right">
 					<!-- <a href="#" ng-click="newLabel()" class="btn btn-md btn-primary">New Label</a> -->
-					<a href="#" ng-click="app.generateDataset()" class="btn btn-md btn-success">Generate Dataset</a>
+					<!-- <a href="#" ng-click="app.generateDataset()" class="btn btn-md btn-success">Generate Dataset</a> -->
 					<a href="#" ng-click="app.newVideos()" class="btn btn-md btn-success">Add Videos</a>
 					<a href="#" ng-click="app.saveProject()" class="btn btn-md">Save</a>
 				</div>
@@ -108,15 +109,12 @@
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 
-	<script src="./node_modules/jquery/dist/jquery.js"></script>
-	<script type="text/javascript">
-		require('jQuery');
-		// require('bootstrap');
-	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 
+	<script src="./node_modules/jquery/dist/jquery.js"></script>
 	<script src="./node_modules/angular/angular.js"></script>
-	<script src="./node_modules/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+	<script src="./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
 	<script src="./node_modules/angular-aria/angular-aria.js"></script>
 	<script src="./node_modules/angular-animate/angular-animate.js"></script>
 	<script src="./node_modules/angular-material/angular-material.js"></script>
