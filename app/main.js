@@ -84,7 +84,7 @@ app.on('ready', function() {
         toolbar: false
     });
 
-    mainWindow.toggleDevTools();
+    // mainWindow.toggleDevTools();
 
     // var keyListener = [0,0,0];
 		// var i = 0;
