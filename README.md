@@ -12,7 +12,7 @@ This application is built on top of Electron and AngularJS.
 
 ### 0. Prerequisites
 
-You should have `Node` and `NPM` installed on your machine.
+You should have `Node` and `NPM` installed on your machine. Thus, it is usable on Windows, Linux, and Mac.
 
 ### 1. Clone the repository
 ```
