@@ -6,13 +6,13 @@ In this tool, you could add your videos, and then, label them. The output of thi
 
 ## Stack
 
-This application is built on top of Electron and AngularJS.
+This application is built on top of Electron and AngularJS. Thus, it is usable on Windows, Linux, and Mac.
 
 ## Installation
 
 ### 0. Prerequisites
 
-You should have `Node` and `NPM` installed on your machine. Thus, it is usable on Windows, Linux, and Mac.
+You should have `Node` and `NPM` installed on your machine.
 
 ### 1. Clone the repository
 ```
